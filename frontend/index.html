@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatGPT Style Workspace</title>
+    <meta
+      name="description"
+      content="A clean ChatGPT-style AI workspace with organized chats, polished UI, and local history."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body data-theme="dark">
+    <div class="shell">
+      <aside class="sidebar" aria-label="Conversation sidebar">
+        <div class="sidebar__brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+          </div>
+          <div>
+            <h1>Workspace</h1>
+          </div>
+        </div>
+
+        <button class="primary-button" id="newChatBtn" type="button">
+          <span>New Chat</span>
+          <span class="button-chip">Ctrl N</span>
+        </button>
+
+        <label class="search" for="chatSearch">
+          <span class="search__icon" aria-hidden="true">Search</span>
+          <input
+            id="chatSearch"
+            type="search"
+            placeholder="Search conversations"
+            autocomplete="off"
+          />
+        </label>
+
+        <div class="sidebar__section">
+          <div class="section-heading">
+            <span>Conversation History</span>
+            <button class="text-button" id="clearChatBtn" type="button">
+              Clear Chat
+            </button>
+          </div>
+          <div class="chat-list" id="chatList" aria-live="polite"></div>
+        </div>
+
+        <div class="sidebar__footer">
+          <button class="secondary-button" id="settingsBtn" type="button">Settings</button>
+          <div class="profile-card">
+            <div class="avatar" aria-hidden="true">VW</div>
+            <div>
+              <strong>User Account</strong>
+              <p><span class="status-dot"></span><span id="connectionStatus">Ready</span></p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="backdrop" id="sidebarBackdrop" hidden></div>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="topbar__left">
+            <button class="icon-button mobile-only" id="sidebarToggle" type="button" aria-label="Open sidebar">
+              <span></span>
+            </button>
+            <div class="topbar-brand" aria-label="AI Workspace">
+              <span class="topbar-brand__mark" aria-hidden="true"></span>
+              <span>AI Workspace</span>
+            </div>
+          </div>
+
+          <div class="topbar__right">
+            <button class="icon-button desktop-only theme-toggle" id="themeToggleBtn" type="button" aria-label="Toggle theme" data-tooltip="Toggle theme">
+              <span class="theme-icon" aria-hidden="true"></span>
+              <span class="sr-only">Toggle theme</span>
+            </button>
+          </div>
+        </header>
+
+        <section class="chat-stage">
+          <div class="chat-stage__glow" aria-hidden="true"></div>
+          <div class="chat-panel">
+            <div class="chat-panel__header" id="panelHeader">
+              <div>
+                <p class="eyebrow">Recent chat</p>
+                <h3 id="activeChatTitle">What can I help with today?</h3>
+              </div>
+              <p class="panel-copy">Powered by your AI backend. Ask anything, analyze code, or brainstorm ideas.</p>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+              <div class="empty-state__orb"></div>
+              <h3>What can I help with today?</h3>
+              <p>Powered by your AI backend. Ask anything, analyze code, or brainstorm ideas.</p>
+              <div class="prompt-grid">
+                <button class="prompt-card" type="button" data-prompt="Explain quantum computing in simple terms.">
+                  <strong>Explain quantum computing</strong>
+                  <span>Simple terms for a beginner concept</span>
+                </button>
+                <button class="prompt-card" type="button" data-prompt="Write a Python script that fetches weather data from an API.">
+                  <strong>Write a Python script</strong>
+                  <span>Fetch weather data from an API</span>
+                </button>
+                <button class="prompt-card" type="button" data-prompt="Brainstorm startup ideas for an AI product.">
+                  <strong>Startup ideas</strong>
+                  <span>Brainstorm 5 innovative tech ideas</span>
+                </button>
+                <button class="prompt-card" type="button" data-prompt="Draft a professional email requesting project feedback.">
+                  <strong>Draft an email</strong>
+                  <span>Requesting professional project feedback</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="messages" id="messages" aria-live="polite" aria-relevant="additions text"></div>
+
+            <div class="composer-shell">
+              <div class="composer">
+                <button class="icon-button" id="attachBtn" type="button" aria-label="Attach file">
+                  <span>+</span>
+                </button>
+                <label class="composer__field" for="messageInput">
+                  <textarea
+                    id="messageInput"
+                    rows="1"
+                    placeholder="Message Workspace"
+                    autocomplete="off"
+                    spellcheck="true"
+                  ></textarea>
+                </label>
+                <button class="send-button" id="sendBtn" type="button">
+                  <span>Send</span>
+                  <span class="send-button__hint">Enter</span>
+                </button>
+              </div>
+              <div class="composer__meta">
+                <span>Shift + Enter for a new line</span>
+                <span>Messages stay on this device</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal" id="settingsModal" hidden>
+      <div class="modal__backdrop" data-close-modal="settings"></div>
+      <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <div class="modal__header">
+          <div>
+            <p class="eyebrow">Preferences</p>
+            <h3 id="settingsTitle">Workspace settings</h3>
+          </div>
+          <button class="icon-button" type="button" data-close-modal="settings" aria-label="Close settings">
+            <span>x</span>
+          </button>
+        </div>
+        <div class="modal__body">
+          <div class="setting-row">
+            <div>
+              <strong>Theme</strong>
+              <p>Switch between dark and light surfaces.</p>
+            </div>
+            <button class="secondary-button compact" id="modalThemeToggle" type="button">
+              Toggle Theme
+            </button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <strong>Storage</strong>
+              <p>Clear all local conversations and reset the workspace state.</p>
+            </div>
+            <button class="danger-button compact" id="resetStorageBtn" type="button">
+              Reset Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="renameModal" hidden>
+      <div class="modal__backdrop" data-close-modal="rename"></div>
+      <div class="modal__card modal__card--sm" role="dialog" aria-modal="true" aria-labelledby="renameTitle">
+        <div class="modal__header">
+          <div>
+            <p class="eyebrow">Conversation</p>
+            <h3 id="renameTitle">Rename chat</h3>
+          </div>
+          <button class="icon-button" type="button" data-close-modal="rename" aria-label="Close rename dialog">
+            <span>x</span>
+          </button>
+        </div>
+        <div class="modal__body">
+          <label class="modal-input">
+            <span>Chat title</span>
+            <input id="renameInput" type="text" maxlength="80" />
+          </label>
+        </div>
+        <div class="modal__footer">
+          <button class="secondary-button" type="button" data-close-modal="rename">Cancel</button>
+          <button class="primary-button" id="renameSaveBtn" type="button">Save title</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
