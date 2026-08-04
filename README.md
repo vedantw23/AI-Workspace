@@ -41,6 +41,8 @@ AI Workspace/
 `-- README.md
 ```
 
+The root `app.py` and `requirements.txt` files are included for Vercel's FastAPI deployment detection.
+
 ## Setup on Windows
 
 ### 1. Clone the repository
