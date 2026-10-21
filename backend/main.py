@@ -58,8 +58,12 @@ async def chat(request: ChatRequest) -> dict[str, str]:
     client = get_groq_client()
 
     try:
+        model = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+        if model == "llama-3.3-70b-versatile":
+            model = "openai/gpt-oss-120b"
+
         response = client.chat.completions.create(
-            model=os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
+            model=model,
             messages=[message.model_dump() for message in request.messages],
         )
     except Exception as error:

@@ -20,7 +20,7 @@ A polished ChatGPT-inspired AI workspace with a responsive chat interface, local
 - HTML, CSS, and vanilla JavaScript
 - Python and FastAPI
 - Groq API
-- Llama 3.3 70B Versatile
+- OpenAI GPT-OSS 120B through Groq
 
 ## Project Structure
 
@@ -76,7 +76,7 @@ $env:GROQ_API_KEY = "your-groq-api-key"
 You can optionally select another supported Groq model:
 
 ```powershell
-$env:GROQ_MODEL = "llama-3.3-70b-versatile"
+$env:GROQ_MODEL = "openai/gpt-oss-120b"
 ```
 
 Never commit API keys or `.env` files to GitHub.
